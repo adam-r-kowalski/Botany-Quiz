@@ -3,7 +3,7 @@ import { Card, CardMedia, CardContent, CardActions, Button, TextField } from "@m
 
 import { Consumer } from "./context";
 import { EditCommonName, EditSpecies, EditFamilyName, SubmitAnswers, ViewCorrectAnswers } from "./event";
-import { State } from "./state";
+import { wrongCommonName, wrongSpecies, wrongFamilyName } from "./checkWrong";
 
 const styles: {[name: string]: React.CSSProperties} = {
     card: {
@@ -20,30 +20,6 @@ const styles: {[name: string]: React.CSSProperties} = {
         margin: 5
     }
 };
-
-const isWrong = (received: string, expected: string): boolean =>
-    received.toLowerCase() != expected.toLowerCase();
-
-const wrongCommonName = (state: State): boolean => {
-    if (!state.question.showErrors) return false;
-    const received = state.question.commonName;
-    const expected = state.plants[state.question.index].commonName;
-    return isWrong(received, expected);
-}
-
-const wrongSpecies = (state: State): boolean => {
-    if (!state.question.showErrors) return false;
-    const received = state.question.species;
-    const expected = state.plants[state.question.index].species;
-    return isWrong(received, expected);
-}
-
-const wrongFamilyName = (state: State): boolean => {
-    if (!state.question.showErrors) return false;
-    const received = state.question.familyName;
-    const expected = state.plants[state.question.index].familyName;
-    return isWrong(received, expected);
-}
 
 export default () =>
     <Consumer>

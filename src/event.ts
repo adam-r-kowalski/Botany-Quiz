@@ -1,5 +1,6 @@
 import { State } from "./state";
 import { TableFooter } from "@material-ui/core";
+import { wrongCommonName, wrongSpecies, wrongFamilyName } from "./checkWrong";
 
 export interface Event {
     update: (state: State) => State;
@@ -28,7 +29,6 @@ export class EditCommonName implements Event {
         return state;
     }
 }
-
 
 export class EditSpecies implements Event {
     constructor(private value: string) {}
@@ -59,7 +59,9 @@ export class SubmitAnswers implements Event {
 
 export class ViewCorrectAnswers implements Event {
     update(state: State): State {
-        console.log("Viewing!")
+        state.question.commonName = state.plants[state.question.index].commonName;
+        state.question.species = state.plants[state.question.index].species;
+        state.question.familyName = state.plants[state.question.index].familyName;
         return state;
     }
 }

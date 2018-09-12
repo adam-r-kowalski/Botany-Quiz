@@ -54,7 +54,7 @@ export const initialState: State = {
             image: "http://www.paulnoll.com/Oregon/Wildflower/plant-Dogwood-Pacific-fruit-big.jpg"
         },
         {
-            commonName: "Oaks",
+            commonName: "Oak",
             species: "Quercus",
             familyName: "Fagaceae",
             image: "https://c8.alamy.com/comp/X5H0FP/scarlet-oak-quercus-coccinea-autumn-colour-trees-leaves-autumn-fall-colour-red-yellow-oaks-oak-tree-trees-oak-oaks-quercus-X5H0FP.jpg"
