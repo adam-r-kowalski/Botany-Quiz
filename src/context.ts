@@ -12,7 +12,7 @@ export interface Context {
 
 const { Consumer, Provider } = React.createContext<Context>({
     dispatch: console.log,
-    state: initialState
+    state: initialState()
 })
 
 export { Consumer, Provider };

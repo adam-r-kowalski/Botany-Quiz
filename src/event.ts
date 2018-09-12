@@ -1,4 +1,4 @@
-import { State } from "./state";
+import { State, initialState } from "./state";
 import { wrongCommonName, wrongSpecies, wrongFamilyName } from "./checkWrong";
 
 export interface Event {
@@ -9,15 +9,22 @@ const randomInt = (max: number): number  =>
     Math.floor(Math.random() * Math.floor(max));
 
 export class SelectRandomQuestion implements Event {
-    update = (state: State): State =>
-        ({ ...state, question: {
+    update = (state: State): State => {
+        if (state.question)
+            state.plants.splice(state.question.index, 1);
+
+        if (state.plants.length === 0)
+            state = initialState();
+
+        return { ...state, question: {
             index: randomInt(state.plants.length),
             commonName: "",
             species: "",
             familyName: "",
             showErrors: false,
             allAnswersCorrect: false
-        } })
+        } };
+    }
 }
 
 export class EditCommonName implements Event {

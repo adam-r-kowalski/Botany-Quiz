@@ -13,7 +13,7 @@ document.body.style.margin = "0";
 class App extends React.Component<{}, State> {
     constructor(props: {}) {
         super(props);
-        this.state = initialState;
+        this.state = initialState();
     }
 
     componentDidMount = () =>

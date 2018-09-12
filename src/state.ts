@@ -22,7 +22,7 @@ export interface State {
     question?: Question;
 }
 
-export const initialState: State = {
+export const initialState = (): State => ({
     plants: [
         {
             commonName: "Vine Maple",
@@ -80,4 +80,4 @@ export const initialState: State = {
         }
     ],
     theme: createMuiTheme()
-};
+});
