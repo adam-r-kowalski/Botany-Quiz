@@ -3,8 +3,10 @@ import * as React from "react";
 import { State, initialState } from "./state";
 import { Event } from "./event";
 
+export type Dispatch = (event: Event) => void;
+
 export interface Context {
-    dispatch: (event: Event) => void;
+    dispatch: Dispatch;
     state: State;
 }
 

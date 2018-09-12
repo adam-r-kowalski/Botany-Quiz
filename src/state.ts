@@ -13,6 +13,7 @@ export interface Question {
     species: string;
     familyName: string;
     showErrors: boolean;
+    allAnswersCorrect: boolean;
 }
 
 export interface State {

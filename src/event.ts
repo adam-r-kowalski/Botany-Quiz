@@ -1,5 +1,4 @@
 import { State } from "./state";
-import { TableFooter } from "@material-ui/core";
 import { wrongCommonName, wrongSpecies, wrongFamilyName } from "./checkWrong";
 
 export interface Event {
@@ -16,7 +15,8 @@ export class SelectRandomQuestion implements Event {
             commonName: "",
             species: "",
             familyName: "",
-            showErrors: false
+            showErrors: false,
+            allAnswersCorrect: false
         } })
 }
 
@@ -52,7 +52,11 @@ export class EditFamilyName implements Event {
 
 export class SubmitAnswers implements Event {
     update(state: State): State {
-        state.question.showErrors = true;
+        if (wrongCommonName(state) || wrongSpecies(state) || wrongFamilyName(state))
+            state.question.showErrors = true;
+        else
+            state.question.allAnswersCorrect = true;
+        
         return state;
     }
 }
