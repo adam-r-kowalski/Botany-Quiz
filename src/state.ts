@@ -12,6 +12,7 @@ export interface Question {
     commonName: string;
     species: string;
     familyName: string;
+    showErrors: boolean;
 }
 
 export interface State {
@@ -51,6 +52,30 @@ export const initialState: State = {
             species: "Cornus nuttallii",
             familyName: "Cornaceae",
             image: "http://www.paulnoll.com/Oregon/Wildflower/plant-Dogwood-Pacific-fruit-big.jpg"
+        },
+        {
+            commonName: "Oaks",
+            species: "Quercus",
+            familyName: "Fagaceae",
+            image: "https://c8.alamy.com/comp/X5H0FP/scarlet-oak-quercus-coccinea-autumn-colour-trees-leaves-autumn-fall-colour-red-yellow-oaks-oak-tree-trees-oak-oaks-quercus-X5H0FP.jpg"
+        },
+        {
+            commonName: "Ash",
+            species: "Fraxinus",
+            familyName: "Oleaceae",
+            image: "https://c8.alamy.com/comp/B6R563/common-ash-european-ash-fraxinus-excelsior-leaf-studio-picture-B6R563.jpg"
+        },
+        {
+            commonName: "Cherry",
+            species: "Prunus",
+            familyName: "Rosaceae",
+            image: "https://i.ebayimg.com/images/g/I6EAAMXQQtNR0VDb/s-l640.jpg"
+        },
+        {
+            commonName: "American Basswood",
+            species: "Tilia americana",
+            familyName: "Tiliaceae",
+            image: "http://www.mortonarb.org/files/Tilia-americana-leaf-sm-JH.jpg"
         }
     ],
     theme: createMuiTheme()
