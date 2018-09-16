@@ -1,6 +1,8 @@
 import ospaths, json
 
-echo "Content-Type: application/json;charset=us-ascii\n\n"
+echo "Content-Type: application/json;charset=us-ascii"
+echo "Access-Control-Allow-Origin: *"
+echo "\n\n"
 
 let query = getEnv("QUERY_STRING")
 
