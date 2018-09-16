@@ -18,17 +18,22 @@ export interface Question {
 
 export enum Route { Quiz, Settings };
 
+export interface Notification {
+    content: string;
+}
+
 export interface State {
     allPlants: Plant[];
     plants: Plant[];
     theme: Theme;
     question?: Question;
     route: Route;
+    notification?: Notification;
 }
 
 export const initialState = (): State => ({
     allPlants: [],
     plants: [],
     theme: createMuiTheme(),
-    route: Route.Quiz
+    route: Route.Settings
 });

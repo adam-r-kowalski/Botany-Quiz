@@ -2,7 +2,7 @@ import * as React from "react";
 import { Card, CardMedia, CardContent, CardActions, Button, TextField, Typography } from "@material-ui/core";
 
 import { Consumer, Dispatch } from "./context";
-import { EditCommonName, EditSpecies, EditFamilyName, SubmitAnswers, ViewCorrectAnswers, SelectRandomQuestion } from "./event";
+import { EditCommonName, EditSpecies, EditFamilyName, SubmitAnswers, ViewCorrectAnswers, SelectRandomQuestion } from "./event/quiz";
 import { wrongCommonName, wrongSpecies, wrongFamilyName } from "./checkWrong";
 
 const styles: { [name: string]: React.CSSProperties } = {
