@@ -6,12 +6,14 @@ echo "\n\n"
 
 var query = getEnv("QUERY_STRING")
 
+let filename = "plants.json"
+
 if query == "load":
-  echo readFile("plants.json")
+  echo readFile(filename)
 
 elif query.startsWith("store="):
   query.removePrefix("store=")
-  writeFile("out.json", query.decode)
+  writeFile(filename, query.decode)
   echo %*{"store": true}
 
 else:
