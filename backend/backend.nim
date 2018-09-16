@@ -1,8 +1,13 @@
-import asynchttpserver, asyncdispatch
+import ospaths, json
 
-var server = newAsyncHttpServer()
+echo "Content-Type: application/json;charset=us-ascii\n\n"
 
-proc cb(req: Request) {.async.} =
-  await req.respond(Http200, "Hello World")
+let query = getEnv("QUERY_STRING")
 
-waitFor server.serve(Port(8080), cb)
+case query
+of "load":
+  echo readFile("plants.json").parseJson
+of "store":
+  echo %*{"storing": true}
+else:
+  echo %*{"invalid": true}
