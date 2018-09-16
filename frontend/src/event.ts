@@ -1,4 +1,4 @@
-import { State, Plant } from "./state";
+import { State, Plant, Route } from "./state";
 import { wrongCommonName, wrongSpecies, wrongFamilyName } from "./checkWrong";
 import { Dispatch } from "./context";
 
@@ -48,6 +48,14 @@ export class StorePlantsOnServer implements Event {
         this.process(state.allPlants);
         return state;
     }
+}
+
+export class ViewSettings implements Event {
+    update = (state: State): State => ({ ...state, route: Route.Settings })
+}
+
+export class ViewQuiz implements Event {
+    update = (state: State): State => ({ ...state, route: Route.Quiz })
 }
 
 export class SelectRandomQuestion implements Event {

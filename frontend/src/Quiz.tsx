@@ -5,7 +5,7 @@ import { Consumer, Dispatch } from "./context";
 import { EditCommonName, EditSpecies, EditFamilyName, SubmitAnswers, ViewCorrectAnswers, SelectRandomQuestion } from "./event";
 import { wrongCommonName, wrongSpecies, wrongFamilyName } from "./checkWrong";
 
-const styles: {[name: string]: React.CSSProperties} = {
+const styles: { [name: string]: React.CSSProperties } = {
     card: {
         width: 400,
         margin: "20px auto"
@@ -52,7 +52,7 @@ const stillWorking = (dispatch: Dispatch) =>
 
 export default () =>
     <Consumer>
-        {({state, dispatch}) =>
+        {({ state, dispatch }) =>
             state.question ?
                 <Card style={styles.card}>
                     <CardContent>
@@ -82,12 +82,11 @@ export default () =>
                             error={state.question.showErrors && wrongFamilyName(state)}
                         />
                     </CardContent>
-                    { state.question.allAnswersCorrect ?
-                      allAnswersCorrect(dispatch) :
-                      stillWorking(dispatch)
+                    {state.question.allAnswersCorrect ?
+                        allAnswersCorrect(dispatch) :
+                        stillWorking(dispatch)
                     }
                 </Card> :
-            <div />
+                <div />
         }
     </Consumer>
-    

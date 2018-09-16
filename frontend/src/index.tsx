@@ -2,11 +2,12 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 
-import { State, initialState } from "./state";
+import { State, initialState, Route } from "./state";
 import { Provider } from "./context";
 import AppBar from "./AppBar";
-import Question from "./Question";
-import { Event, SelectRandomQuestion, LoadPlantsFromServer } from "./event";
+import Quiz from "./Quiz";
+import { Event, LoadPlantsFromServer } from "./event";
+import Settings from "./Settings";
 
 document.body.style.margin = "0";
 
@@ -26,7 +27,7 @@ class App extends React.Component<{}, State> {
         <Provider value={{ dispatch: this.dispatch, state: this.state }}>
             <MuiThemeProvider theme={this.state.theme}>
                 <AppBar />
-                <Question />
+                {this.state.route == Route.Quiz ? <Quiz /> : <Settings />}
             </MuiThemeProvider>
         </Provider>
 }

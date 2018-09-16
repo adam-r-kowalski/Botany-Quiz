@@ -16,15 +16,19 @@ export interface Question {
     allAnswersCorrect: boolean;
 }
 
+export enum Route { Quiz, Settings };
+
 export interface State {
     allPlants: Plant[];
     plants: Plant[];
     theme: Theme;
     question?: Question;
+    route: Route;
 }
 
 export const initialState = (): State => ({
     allPlants: [],
     plants: [],
-    theme: createMuiTheme()
+    theme: createMuiTheme(),
+    route: Route.Quiz
 });
