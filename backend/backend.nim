@@ -1,4 +1,4 @@
-import ospaths, json
+import ospaths, json, strutils
 
 echo "Content-Type: application/json;charset=us-ascii"
 echo "Access-Control-Allow-Origin: *"
@@ -6,10 +6,11 @@ echo "\n\n"
 
 let query = getEnv("QUERY_STRING")
 
-case query
-of "load":
+if query == "load":
   echo readFile("plants.json").parseJson
-of "store":
-  echo %*{"storing": true}
+
+elif query.startsWith("store="):
+  echo %*{"store": true}
+
 else:
-  echo %*{"invalid": true}
+  echo %*{"invlalid": true}
