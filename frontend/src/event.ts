@@ -1,12 +1,24 @@
 import { State, initialState } from "./state";
 import { wrongCommonName, wrongSpecies, wrongFamilyName } from "./checkWrong";
+import { Dispatch } from "./context";
 
 export interface Event {
     update: (state: State) => State;
 }
 
-const randomInt = (max: number): number  =>
+const randomInt = (max: number): number =>
     Math.floor(Math.random() * Math.floor(max));
+
+export class LoadPlantsFromServer implements Event {
+    constructor(private dispatch: Dispatch) { }
+
+    update = (state: State): State => {
+        fetch("http://web.cecs.pdx.edu/~kowalski/Botany-Quiz/backend.cgi?load")
+            .then(r => r.json())
+            .then(console.log);
+        return state;
+    }
+}
 
 export class SelectRandomQuestion implements Event {
     update = (state: State): State => {
@@ -16,19 +28,21 @@ export class SelectRandomQuestion implements Event {
         if (state.plants.length === 0)
             state = initialState();
 
-        return { ...state, question: {
-            index: randomInt(state.plants.length),
-            commonName: "",
-            species: "",
-            familyName: "",
-            showErrors: false,
-            allAnswersCorrect: false
-        } };
+        return {
+            ...state, question: {
+                index: randomInt(state.plants.length),
+                commonName: "",
+                species: "",
+                familyName: "",
+                showErrors: false,
+                allAnswersCorrect: false
+            }
+        };
     }
 }
 
 export class EditCommonName implements Event {
-    constructor(private value: string) {}
+    constructor(private value: string) { }
 
     update(state: State): State {
         state.question.commonName = this.value;
@@ -38,7 +52,7 @@ export class EditCommonName implements Event {
 }
 
 export class EditSpecies implements Event {
-    constructor(private value: string) {}
+    constructor(private value: string) { }
 
     update(state: State): State {
         state.question.species = this.value;
@@ -48,7 +62,7 @@ export class EditSpecies implements Event {
 }
 
 export class EditFamilyName implements Event {
-    constructor(private value: string) {}
+    constructor(private value: string) { }
 
     update(state: State): State {
         state.question.familyName = this.value;
@@ -63,7 +77,7 @@ export class SubmitAnswers implements Event {
             state.question.showErrors = true;
         else
             state.question.allAnswersCorrect = true;
-        
+
         return state;
     }
 }
