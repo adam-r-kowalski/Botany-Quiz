@@ -1,4 +1,4 @@
-import { State, initialState } from "./state";
+import { State, Plant } from "./state";
 import { wrongCommonName, wrongSpecies, wrongFamilyName } from "./checkWrong";
 import { Dispatch } from "./context";
 
@@ -12,10 +12,40 @@ const randomInt = (max: number): number =>
 export class LoadPlantsFromServer implements Event {
     constructor(private dispatch: Dispatch) { }
 
+    async process() {
+        const response = await fetch("http://web.cecs.pdx.edu/~kowalski/Botany-Quiz/backend.cgi?load");
+        const plants = await response.json();
+        this.dispatch(new ReceivedPlantsFromServer(this.dispatch, plants));
+    }
+
     update = (state: State): State => {
-        fetch("http://web.cecs.pdx.edu/~kowalski/Botany-Quiz/backend.cgi?load")
-            .then(r => r.json())
-            .then(console.log);
+        this.process();
+        return state;
+    }
+}
+
+export class ReceivedPlantsFromServer implements Event {
+    constructor(private dispatch: Dispatch, private plants: Plant[]) { }
+
+    update = (state: State): State => {
+        state.plants = this.plants;
+        state.allPlants = this.plants.slice(0);
+        this.dispatch(new SelectRandomQuestion());
+        return state;
+    }
+}
+
+export class StorePlantsOnServer implements Event {
+    async process(plants: Plant[]) {
+        const base = "http://web.cecs.pdx.edu/~kowalski/Botany-Quiz/backend.cgi?store=";
+        const encoded = btoa(JSON.stringify(plants));
+        const response = await fetch(base + encoded);
+        const json = await response.json();
+        console.log(json);
+    }
+
+    update = (state: State): State => {
+        this.process(state.allPlants);
         return state;
     }
 }
@@ -26,7 +56,7 @@ export class SelectRandomQuestion implements Event {
             state.plants.splice(state.question.index, 1);
 
         if (state.plants.length === 0)
-            state = initialState();
+            state.plants = state.allPlants.slice(0);
 
         return {
             ...state, question: {
