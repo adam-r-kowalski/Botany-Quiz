@@ -25,7 +25,7 @@ const settings = (dispatch: Dispatch) =>
             Botany Settings
         </Typography>
         <div style={{ flex: 1 }} />
-        <Button onClick={e => dispatch(new ViewQuiz())}>
+        <Button onClick={() => dispatch(new ViewQuiz())}>
             Quiz
             <GradeIcon />
         </Button>

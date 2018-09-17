@@ -1,5 +1,5 @@
 import { Event } from ".";
-import { State } from "../state";
+import { State, question } from "../state";
 import { wrongCommonName, wrongSpecies, wrongFamilyName } from "../checkWrong";
 
 export class EditCommonName implements Event {
@@ -52,10 +52,14 @@ export class ViewCorrectAnswers implements Event {
     }
 }
 
-const randomInt = (max: number): number =>
+type RandomIntGenerator = (max: number) => number;
+
+const randomInt: RandomIntGenerator = max =>
     Math.floor(Math.random() * Math.floor(max));
 
 export class SelectRandomQuestion implements Event {
+    constructor(private randomIntGenerator: RandomIntGenerator = randomInt) { }
+
     update = (state: State): State => {
         if (state.question)
             state.plants.splice(state.question.index, 1);
@@ -63,15 +67,6 @@ export class SelectRandomQuestion implements Event {
         if (state.plants.length === 0)
             state.plants = state.allPlants.slice(0);
 
-        return {
-            ...state, question: {
-                index: randomInt(state.plants.length),
-                commonName: "",
-                species: "",
-                familyName: "",
-                showErrors: false,
-                allAnswersCorrect: false
-            }
-        };
+        return { ...state, question: question(this.randomIntGenerator(state.plants.length)) };
     }
 }

@@ -17,5 +17,8 @@ export class ViewQuiz implements Event {
 }
 
 export class CloseNotification implements Event {
-    update = (state: State): State => ({ ...state, notification: null })
+    update = (state: State): State => {
+        delete state.notification;
+        return state;
+    }
 }

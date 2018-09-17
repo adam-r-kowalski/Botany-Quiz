@@ -16,6 +16,16 @@ export interface Question {
     allAnswersCorrect: boolean;
 }
 
+export const question = (index: number): Question =>
+    ({
+        index,
+        commonName: "",
+        species: "",
+        familyName: "",
+        showErrors: false,
+        allAnswersCorrect: false
+    });
+
 export enum Route { Quiz, Settings };
 
 export interface Notification {
@@ -25,7 +35,7 @@ export interface Notification {
 export interface State {
     allPlants: Plant[];
     plants: Plant[];
-    theme: Theme;
+    theme?: Theme;
     question?: Question;
     route: Route;
     notification?: Notification;
@@ -35,5 +45,5 @@ export const initialState = (): State => ({
     allPlants: [],
     plants: [],
     theme: createMuiTheme(),
-    route: Route.Settings
+    route: Route.Quiz
 });

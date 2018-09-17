@@ -4,7 +4,7 @@ import SaveIcon from "@material-ui/icons/Save";
 
 import { Consumer, Dispatch } from "./context";
 import { Plant } from "./state";
-import { EditCommonName, EditSpecies, EditFamilyName } from "./event/settings";
+import { EditCommonName, EditSpecies, EditFamilyName, DeletePlant } from "./event/settings";
 import { StorePlants } from "./event/server";
 
 const styles: { [name: string]: React.CSSProperties } = {
@@ -60,7 +60,13 @@ const plant = (plant: Plant, index: number, dispatch: Dispatch) =>
                 onChange={e => dispatch(new EditFamilyName(e.target.value, index))}
             />
             <div style={styles.spacer} />
-            <Button color="secondary" style={styles.delete}>Delete</Button>
+            <Button
+                color="secondary"
+                style={styles.delete}
+                onClick={() => dispatch(new DeletePlant(index))}
+            >
+                Delete
+            </Button>
         </CardContent>
     </Card>
 
