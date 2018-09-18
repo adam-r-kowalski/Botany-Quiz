@@ -14,6 +14,13 @@ export const newPlant = (index: number): Plant => ({
     image: `image ${index}`,
 });
 
+export const defaultPlant = (): Plant => ({
+    commonName: "change me",
+    species: "change me",
+    familyName: "change me",
+    image: "https://cdn4.iconfinder.com/data/icons/under-construction-1/512/under-512.png"
+})
+
 export interface Question {
     index: number;
     commonName: string;

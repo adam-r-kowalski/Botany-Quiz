@@ -1,7 +1,7 @@
 import { Event } from ".";
-import { State } from "../state";
+import { State, Plant, defaultPlant } from "../state";
 import { Dispatch } from "../context";
-import { NeedsSaving } from "./server";
+import { NeedsSaving, SavePlants } from "./server";
 
 const boundsCheck = (index: number, state: State): boolean =>
     index >= state.allPlants.length;
@@ -55,11 +55,23 @@ export class EditFamilyName implements Event {
 }
 
 export class DeletePlant implements Event {
-    constructor(private index: number) { }
+    constructor(private dispatch: Dispatch, private index: number) { }
 
     update(state: State): State {
         state.allPlants.splice(this.index, 1);
         state.plants = state.allPlants.slice(0);
+        this.dispatch(new SavePlants(this.dispatch));
+        return state;
+    }
+}
+
+export class AddPlant implements Event {
+    constructor(private dispatch: Dispatch) { }
+
+    update = (state: State): State => {
+        state.allPlants.unshift(defaultPlant());
+        state.plants = state.allPlants.slice(0);
+        this.dispatch(new SavePlants(this.dispatch));
         return state;
     }
 }

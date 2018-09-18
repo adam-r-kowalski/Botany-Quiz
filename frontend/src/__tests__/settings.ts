@@ -1,5 +1,5 @@
-import { State, Route, Plant, newPlant } from "../state";
-import { EditImage, EditCommonName, EditSpecies, EditFamilyName, DeletePlant } from "../event/settings";
+import { State, Route, Plant, newPlant, defaultPlant } from "../state";
+import { EditImage, EditCommonName, EditSpecies, EditFamilyName, DeletePlant, AddPlant } from "../event/settings";
 import { Dispatch } from "../context";
 
 const emptyState = (allPlants: Plant[] = []): State => ({
@@ -108,21 +108,53 @@ test("Edit Common Name 1", () => {
 
 test("Delete Plant", () => {
     const state = emptyState();
-    const event = new DeletePlant(0);
+    const dispatch = mockDispatch();
+
+    const event = new DeletePlant(dispatch, 0);
+
     const expected = emptyState();
+
     expect(event.update(state)).toEqual(expected);
+    expect(dispatch.mock.calls.length).toEqual(1);
 });
 
 test("Delete Plant 1", () => {
     const state = emptyState([newPlant(0)]);
-    const event = new DeletePlant(0);
+    const dispatch = mockDispatch();
+
+    const event = new DeletePlant(dispatch, 0);
+
     const expected = emptyState();
+
     expect(event.update(state)).toEqual(expected);
+    expect(dispatch.mock.calls.length).toEqual(1);
 });
 
 test("Delete Plant 2", () => {
     const state = emptyState([newPlant(0), newPlant(1)]);
-    const event = new DeletePlant(0);
+    const dispatch = mockDispatch();
+
+    const event = new DeletePlant(dispatch, 0);
+
     const expected = emptyState([newPlant(1)]);
     expect(event.update(state)).toEqual(expected);
+    expect(dispatch.mock.calls.length).toEqual(1);
 });
+
+test("Add Plant", () => {
+    const state = emptyState();
+    const dispatch = mockDispatch();
+    const event = new AddPlant(dispatch);
+    const expected = emptyState([defaultPlant()]);
+    expect(event.update(state)).toEqual(expected);
+    expect(dispatch.mock.calls.length).toEqual(1);
+})
+
+test("Add Plant 1", () => {
+    const state = emptyState([newPlant(0)]);
+    const dispatch = mockDispatch();
+    const event = new AddPlant(dispatch);
+    const expected = emptyState([defaultPlant(), newPlant(0)]);
+    expect(event.update(state)).toEqual(expected);
+    expect(dispatch.mock.calls.length).toEqual(1);
+})
