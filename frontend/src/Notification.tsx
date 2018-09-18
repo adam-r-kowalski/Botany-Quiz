@@ -3,7 +3,7 @@ import { Snackbar, IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { Consumer } from "./context";
-import { CloseNotification } from "./event";
+import { CloseNotification } from "./event/notification";
 
 export default () =>
     <Consumer>

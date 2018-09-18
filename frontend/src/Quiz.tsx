@@ -32,7 +32,7 @@ const styles: { [name: string]: React.CSSProperties } = {
 const allAnswersCorrect = (dispatch: Dispatch) =>
     <CardActions style={styles.rows}>
         <Typography variant="title" style={styles.center}>
-            Nice job babe! You got them all right! I love you :)
+            Nice job! You got them all right!
         </Typography>
         <Button color="primary" onClick={() => dispatch(new SelectRandomQuestion())}>
             Next Question

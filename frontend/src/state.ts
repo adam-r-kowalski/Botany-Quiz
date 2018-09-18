@@ -7,6 +7,13 @@ export interface Plant {
     image: string;
 }
 
+export const newPlant = (index: number): Plant => ({
+    commonName: `common name ${index}`,
+    species: `species ${index}`,
+    familyName: `family name ${index}`,
+    image: `image ${index}`,
+});
+
 export interface Question {
     index: number;
     commonName: string;

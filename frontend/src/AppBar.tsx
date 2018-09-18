@@ -4,7 +4,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import GradeIcon from "@material-ui/icons/Grade";
 
 import { Consumer, Dispatch } from "./context";
-import { ViewSettings, ViewQuiz } from "./event";
+import { ViewSettings, ViewQuiz } from "./event/routes";
 import { State, Route } from "./state";
 
 const quiz = (state: State, dispatch: Dispatch) =>

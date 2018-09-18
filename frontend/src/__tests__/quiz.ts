@@ -1,15 +1,8 @@
-import { State, Route, question, Plant } from "../state";
+import { State, Route, question, newPlant } from "../state";
 import { EditCommonName, EditSpecies, EditFamilyName, SubmitAnswers, ViewCorrectAnswers, SelectRandomQuestion } from "../event/quiz";
 
-const plant = (index: number): Plant => ({
-    commonName: `common name ${index}`,
-    species: `species ${index}`,
-    familyName: `family name ${index}`,
-    image: `image ${index}`
-});
-
-export const emptyState = (): State => {
-    const allPlants = [plant(0), plant(1), plant(2)];
+const emptyState = (): State => {
+    const allPlants = [newPlant(0), newPlant(1), newPlant(2)];
 
     return {
         allPlants,
