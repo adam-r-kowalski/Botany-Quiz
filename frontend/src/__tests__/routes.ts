@@ -4,7 +4,8 @@ import { ViewSettings, ViewQuiz } from "../event/routes";
 const emptyState = (): State => ({
     allPlants: [],
     plants: [],
-    route: Route.Quiz
+    route: Route.Quiz,
+    needsSaving: false
 });
 
 test('View Settings', () => {

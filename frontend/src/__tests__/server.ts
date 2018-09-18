@@ -1,10 +1,12 @@
 import { State, Route, Plant, question, newPlant } from "../state";
-import { LoadPlants, ReceivedPlants, StorePlants, Status, StoredPlants } from "../event/server";
+import { LoadPlants, ReceivedPlants, SavedPlants, NeedsSaving, SavePlants } from "../event/server";
+import { Dispatch } from "../context";
 
 const emptyState = (): State => ({
     allPlants: [],
     plants: [],
-    route: Route.Quiz
+    route: Route.Quiz,
+    needsSaving: false
 });
 
 const loadPlants = (count: number, plants: Plant[] = []) => {
@@ -15,9 +17,11 @@ const loadPlants = (count: number, plants: Plant[] = []) => {
     }
 };
 
-const storePlants = async (url: String): Promise<Status> => ({
-    status: true
-});
+const mockDispatch: () => jest.Mock<Dispatch> = () => jest.fn(_ => { });
+
+const mockRequest = <T>(value: T): jest.Mock<Promise<T>> =>
+    jest.fn(async _ => value);
+
 
 test("Load Plants 0", () => {
     const state = emptyState();
@@ -56,20 +60,45 @@ test("Received Plants", () => {
     }, [newPlant(0)]).update(state);
 });
 
-test("Store Plants", () => {
-    const state = emptyState();
-    new StorePlants(() => {
-        const expected = emptyState();
-        expect(state).toEqual(expected);
-    }, storePlants).update(state);
-});
+const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
-test("Stored Plants", () => {
+test("Needs Saving", async () => {
     const state = emptyState();
-    const event = new StoredPlants();
+    const dispatch = mockDispatch();
+    const event = new NeedsSaving(dispatch);
 
     const expected = emptyState();
-    expected.notification = { content: "Plants saved!" };
+    expected.needsSaving = true;
+
+    expect(event.update(state)).toEqual(expected);
+
+    await sleep(100);
+    expect(dispatch.mock.calls.length).toEqual(1);
+});
+
+test("Save Plants", async () => {
+    const state = emptyState();
+    state.needsSaving = true;
+
+    const dispatch = mockDispatch();
+    const request = mockRequest({ status: true });
+    const event = new SavePlants(dispatch, request);
+
+    const expected = emptyState();
+    expected.needsSaving = true;
+
+    expect(event.update(state)).toEqual(expected);
+    await sleep(1);
+    expect(dispatch.mock.calls.length).toEqual(1);
+    expect(request.mock.calls.length).toEqual(1);
+});
+
+test("Saved Plants", () => {
+    const state = emptyState();
+    const event = new SavedPlants();
+
+    const expected = emptyState();
+    expected.needsSaving = false;
 
     expect(event.update(state)).toEqual(expected);
 });

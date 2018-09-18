@@ -8,7 +8,8 @@ const emptyState = (): State => {
         allPlants,
         plants: allPlants.slice(0),
         route: Route.Quiz,
-        question: question(0)
+        question: question(0),
+        needsSaving: false
     };
 };
 

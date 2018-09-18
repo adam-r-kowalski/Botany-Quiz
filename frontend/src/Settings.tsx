@@ -4,8 +4,8 @@ import SaveIcon from "@material-ui/icons/Save";
 
 import { Consumer, Dispatch } from "./context";
 import { Plant } from "./state";
-import { EditCommonName, EditSpecies, EditFamilyName, DeletePlant } from "./event/settings";
-import { StorePlants } from "./event/server";
+import { EditCommonName, EditSpecies, EditFamilyName, DeletePlant, EditImage } from "./event/settings";
+import { SavePlants } from "./event/server";
 
 const styles: { [name: string]: React.CSSProperties } = {
     card: {
@@ -43,21 +43,22 @@ const plant = (plant: Plant, index: number, dispatch: Dispatch) =>
             <TextField
                 label="Image"
                 value={plant.image}
+                onChange={e => dispatch(new EditImage(dispatch, e.target.value, index))}
             />
             <TextField
                 label="Common Name"
                 value={plant.commonName}
-                onChange={e => dispatch(new EditCommonName(e.target.value, index))}
+                onChange={e => dispatch(new EditCommonName(dispatch, e.target.value, index))}
             />
             <TextField
                 label="Species"
                 value={plant.species}
-                onChange={e => dispatch(new EditSpecies(e.target.value, index))}
+                onChange={e => dispatch(new EditSpecies(dispatch, e.target.value, index))}
             />
             <TextField
                 label="Family Name"
                 value={plant.familyName}
-                onChange={e => dispatch(new EditFamilyName(e.target.value, index))}
+                onChange={e => dispatch(new EditFamilyName(dispatch, e.target.value, index))}
             />
             <div style={styles.spacer} />
             <Button
@@ -79,7 +80,7 @@ export default () =>
                     variant="extendedFab"
                     color="primary"
                     style={styles.fab}
-                    onClick={() => dispatch(new StorePlants(dispatch))}
+                    onClick={() => dispatch(new SavePlants(dispatch))}
                 >
                     <SaveIcon />
                     Save

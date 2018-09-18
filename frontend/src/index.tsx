@@ -9,7 +9,6 @@ import Quiz from "./Quiz";
 import { Event } from "./event";
 import { LoadPlants } from "./event/server";
 import Settings from "./Settings";
-import Notification from "./Notification";
 
 document.body.style.margin = "0";
 
@@ -30,7 +29,6 @@ class App extends React.Component<{}, State> {
             <MuiThemeProvider theme={this.state.theme}>
                 <AppBar />
                 {this.state.route == Route.Quiz ? <Quiz /> : <Settings />}
-                <Notification />
             </MuiThemeProvider>
         </Provider>
 }

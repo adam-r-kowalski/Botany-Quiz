@@ -57,14 +57,24 @@ export class ReceivedPlants implements Event, Iterator<Plant> {
     }
 }
 
-export class StorePlants implements Event {
+export class NeedsSaving implements Event {
+    constructor(private dispatch: Dispatch) { }
+
+    update = (state: State): State => {
+        if (state.needsSaving) return state;
+        setTimeout(() => this.dispatch(new SavePlants(this.dispatch)), 100);
+        return { ...state, needsSaving: true };
+    }
+};
+
+export class SavePlants implements Event {
     constructor(private dispatch: Dispatch,
         private remoteRequest: RemoteRequest<Status> = fetchRemoteRequest) { }
 
     async process(plants: Plant[]) {
         const encoded = btoa(JSON.stringify(plants));
         await this.remoteRequest(`${backend}?store=${encoded}`);
-        this.dispatch(new StoredPlants());
+        this.dispatch(new SavedPlants());
     }
 
     update = (state: State): State => {
@@ -73,7 +83,6 @@ export class StorePlants implements Event {
     }
 }
 
-export class StoredPlants implements Event {
-    update = (state: State): State =>
-        ({ ...state, notification: { content: "Plants saved!" } })
+export class SavedPlants implements Event {
+    update = (state: State): State => ({ ...state, needsSaving: false })
 }
