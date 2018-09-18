@@ -1,41 +1,67 @@
 import * as React from "react";
-import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
-import GradeIcon from "@material-ui/icons/Grade";
+import * as mui from "@material-ui/core";
+import * as icons from "@material-ui/icons";
 
 import { Consumer, Dispatch } from "./context";
 import { ViewSettings, ViewQuiz } from "./event/routes";
 import { State, Route } from "./state";
 
-const quiz = (state: State, dispatch: Dispatch) =>
-    <Toolbar>
-        <Typography variant="title" color="inherit">
-            Botany Quiz {state.allPlants.length - state.plants.length} / {state.allPlants.length}
-        </Typography>
-        <div style={{ flex: 1 }} />
-        <Button onClick={e => dispatch(new ViewSettings())}>
-            Settings
-            <SettingsIcon />
-        </Button>
-    </Toolbar>;
+const buffer = 10;
 
-const settings = (dispatch: Dispatch) =>
-    <Toolbar>
-        <Typography variant="title" color="inherit">
+const styles: { [name: string]: React.CSSProperties } = {
+    padder: {
+        margin: `0 ${buffer}px`
+    },
+    smallPadder: {
+        margin: `0 ${buffer / 2}px`
+    },
+    spacer: {
+        flex: 1
+    },
+    flex: {
+        display: "flex"
+    }
+}
+
+const quiz = (state: State, dispatch: Dispatch) =>
+    <mui.Toolbar>
+        <mui.Typography variant="title" color="inherit" style={styles.flex}>
+            Botany Quiz
+            <div style={styles.padder} />
+            {state.allPlants.length - state.plants.length} / {state.allPlants.length}
+        </mui.Typography>
+        <div style={styles.spacer} />
+        <mui.Button onClick={() => dispatch(new ViewSettings())}>
+            Settings
+            <div style={styles.smallPadder} />
+            <icons.Settings />
+        </mui.Button>
+    </mui.Toolbar>;
+
+const settings = (state: State, dispatch: Dispatch) =>
+    <mui.Toolbar>
+        <mui.Typography variant="title" color="inherit">
             Botany Settings
-        </Typography>
-        <div style={{ flex: 1 }} />
-        <Button onClick={() => dispatch(new ViewQuiz())}>
+        </mui.Typography>
+        <div style={styles.padder} />
+
+        <icons.Save color={state.needsSaving ? "default" : "primary"} />
+
+        <div style={styles.spacer} />
+        <mui.Button onClick={() => dispatch(new ViewQuiz(dispatch))}>
             Quiz
-            <GradeIcon />
-        </Button>
-    </Toolbar>;
+            <div style={styles.smallPadder} />
+            <icons.Grade />
+        </mui.Button>
+    </mui.Toolbar>;
 
 export default () =>
     <Consumer>
         {({ state, dispatch }) =>
-            <AppBar position="static" color="default">
-                {state.route == Route.Quiz ? quiz(state, dispatch) : settings(dispatch)}
-            </AppBar>
+            <mui.AppBar position="static" color="default">
+                {state.route == Route.Quiz ?
+                    quiz(state, dispatch) :
+                    settings(state, dispatch)}
+            </mui.AppBar>
         }
     </Consumer>;

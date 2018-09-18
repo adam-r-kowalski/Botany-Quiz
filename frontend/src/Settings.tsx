@@ -74,17 +74,5 @@ const plant = (plant: Plant, index: number, dispatch: Dispatch) =>
 export default () =>
     <Consumer>
         {({ state, dispatch }) =>
-            <>
-                {state.allPlants.map((p, i) => plant(p, i, dispatch))}
-                <Button
-                    variant="extendedFab"
-                    color="primary"
-                    style={styles.fab}
-                    onClick={() => dispatch(new SavePlants(dispatch))}
-                >
-                    <SaveIcon />
-                    Save
-                </Button>
-            </>
-        }
+            state.allPlants.map((p, i) => plant(p, i, dispatch))}
     </Consumer>;

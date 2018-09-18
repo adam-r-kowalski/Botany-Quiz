@@ -72,7 +72,7 @@ test("Needs Saving", async () => {
 
     expect(event.update(state)).toEqual(expected);
 
-    await sleep(100);
+    await sleep(500);
     expect(dispatch.mock.calls.length).toEqual(1);
 });
 
@@ -85,7 +85,6 @@ test("Save Plants", async () => {
     const event = new SavePlants(dispatch, request);
 
     const expected = emptyState();
-    expected.needsSaving = true;
 
     expect(event.update(state)).toEqual(expected);
     await sleep(1);

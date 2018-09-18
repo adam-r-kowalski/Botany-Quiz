@@ -62,8 +62,9 @@ export class NeedsSaving implements Event {
 
     update = (state: State): State => {
         if (state.needsSaving) return state;
-        setTimeout(() => this.dispatch(new SavePlants(this.dispatch)), 100);
-        return { ...state, needsSaving: true };
+        state.needsSaving = true;
+        setTimeout(() => this.dispatch(new SavePlants(this.dispatch)), 500);
+        return state;
     }
 };
 
@@ -79,10 +80,10 @@ export class SavePlants implements Event {
 
     update = (state: State): State => {
         this.process(state.allPlants);
-        return state;
+        return { ...state, needsSaving: false };
     }
 }
 
 export class SavedPlants implements Event {
-    update = (state: State): State => ({ ...state, needsSaving: false })
+    update = (state: State): State => state
 }
