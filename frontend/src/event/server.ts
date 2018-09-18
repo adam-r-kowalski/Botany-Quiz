@@ -15,13 +15,14 @@ export interface Status {
     status: boolean;
 };
 
+const backend = "https://web.cecs.pdx.edu/~kowalski/Botany-Quiz/backend.cgi";
+
 export class LoadPlants implements Event {
     constructor(private dispatch: Dispatch,
         private remoteRequest: RemoteRequest<Plant[]> = fetchRemoteRequest) { }
 
     async process() {
-        const url = "http://web.cecs.pdx.edu/~kowalski/Botany-Quiz/backend.cgi?load";
-        const plants = await this.remoteRequest(url);
+        const plants = await this.remoteRequest(`${backend}?load`);
         this.dispatch(new ReceivedPlants(this.dispatch, plants));
     }
 
@@ -61,9 +62,8 @@ export class StorePlants implements Event {
         private remoteRequest: RemoteRequest<Status> = fetchRemoteRequest) { }
 
     async process(plants: Plant[]) {
-        const base = "http://web.cecs.pdx.edu/~kowalski/Botany-Quiz/backend.cgi?store=";
         const encoded = btoa(JSON.stringify(plants));
-        await this.remoteRequest(base + encoded);
+        await this.remoteRequest(`${backend}?store=${encoded}`);
         this.dispatch(new StoredPlants());
     }
 
