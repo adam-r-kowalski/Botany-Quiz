@@ -15,8 +15,8 @@ elif query == "store":
   let data = cgi.readData()
   let file = open("demo.txt", fmWrite)
 
-  for pair in pairs(data):
-    write(file, $pair)
+  for value in values(data):
+    write(file, $value & "\n")
 
   echo %*{"store": true}
 
