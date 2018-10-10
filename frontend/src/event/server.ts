@@ -4,7 +4,7 @@ import { State, Plant, newPlant } from "../state";
 import { SelectRandomQuestion } from "./quiz";
 
 type GetRequest<T> = (url: string) => Promise<T>;
-type PostRequest<T> = (url: string, json: T) => Promise<void>;
+type PostRequest = (url: string, json: string) => Promise<void>;
 
 async function fetchGetRequest<T>(url: string): Promise<T> {
   const response = await fetch(url);
@@ -12,10 +12,10 @@ async function fetchGetRequest<T>(url: string): Promise<T> {
   return json;
 }
 
-async function fetchPostRequest<T>(url: string, data: T): Promise<void> {
+async function fetchPostRequest(url: string, data: string): Promise<void> {
   await fetch(url, {
     method: "POST",
-    body: JSON.stringify(data)
+    body: data
   });
 }
 
@@ -82,11 +82,14 @@ export class NeedsSaving implements Event {
 export class SavePlants implements Event {
   constructor(
     private dispatch: Dispatch,
-    private postRequest: PostRequest<Plant[]> = fetchPostRequest
+    private postRequest: PostRequest = fetchPostRequest
   ) {}
 
   async process(plants: Plant[]) {
-    await this.postRequest(`${backend}?store`, plants);
+    await this.postRequest(
+      `${backend}?store`,
+      JSON.stringify({ allPlants: plants })
+    );
     this.dispatch(new SavedPlants());
   }
 
