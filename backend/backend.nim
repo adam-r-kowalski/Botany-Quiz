@@ -13,10 +13,7 @@ if query == "load":
 
 elif query == "store":
   let data = cgi.readData()
-
-  let file = open("demo.txt", fmWrite)
-  for pair in pairs(data):
-    write(file, $pair & "\n")
+  writeFile("demo.txt", data["allPlants"])
 
   echo %*{"store": true}
 
