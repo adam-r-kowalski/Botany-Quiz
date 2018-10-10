@@ -11,10 +11,10 @@ let filename = "plants.json"
 if query == "load":
   echo readFile(filename)
 
-elif query.startsWith("store="):
-  query.removePrefix("store=")
-  writeFile(filename, query.decode)
+elif query == "store":
+  for pair in ospaths.envPairs():
+    echo pair
   echo %*{"store": true}
 
 else:
-  echo %*{"invlalid": true}
+  echo %*{"invalid": true}
