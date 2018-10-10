@@ -6,13 +6,13 @@ echo "\n\n"
 
 var query = getEnv("QUERY_STRING")
 
-let filename = "plants.json"
+let filename = "new_plants.json"
 
 if query == "load":
   echo readFile(filename)
 
 elif query == "store":
-  writeFile("demo", readLine(stdin))
+  writeFile(filename, readLine(stdin))
   echo %*{"store": true}
 
 else:
