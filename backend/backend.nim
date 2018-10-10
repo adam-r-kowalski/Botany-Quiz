@@ -1,4 +1,4 @@
-import ospaths, json, strutils, base64, cgi, strtabs
+import ospaths, json, strutils, base64
 
 echo "Content-Type: application/json;charset=us-ascii"
 echo "Access-Control-Allow-Origin: *"
@@ -12,9 +12,7 @@ if query == "load":
   echo readFile(filename)
 
 elif query == "store":
-  let data = cgi.readData({methodPost})
-  writeFile("demo.txt", $data)
-
+  writeFile("demo", readLine(stdin))
   echo %*{"store": true}
 
 else:
