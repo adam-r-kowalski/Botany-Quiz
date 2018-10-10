@@ -1,2 +1,2 @@
 yarn build
-mv frontend/dist/bundle.js ..
+mv dist/bundle.js ..
