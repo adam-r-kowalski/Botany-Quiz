@@ -12,8 +12,9 @@ if query == "load":
   echo readFile(filename)
 
 elif query == "store":
+  let file = open("demo.txt", fmWrite)
   for pair in ospaths.envPairs():
-    writeFile("demo.txt", $pair)
+    write(file, $pair & "\n")
   echo %*{"store": true}
 
 else:
