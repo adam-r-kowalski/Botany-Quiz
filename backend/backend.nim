@@ -13,10 +13,14 @@ if query == "load":
 
 elif query == "store":
   let data = cgi.readData()
-  let file = open("demo.txt", fmWrite)
 
+  let valueFile = open("values.txt", fmWrite)
   for value in values(data):
-    write(file, $value & "\n")
+    write(valueFile, $value & "\n")
+
+  let keyFile = open("keys.txt", fmWrite)
+  for key in keys(data):
+    write(keyFile, $key & "\n")
 
   echo %*{"store": true}
 
