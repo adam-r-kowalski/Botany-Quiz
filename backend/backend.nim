@@ -13,7 +13,7 @@ if query == "load":
 
 elif query == "store":
   for pair in ospaths.envPairs():
-    echo pair
+    writeFile("demo.txt", $pair)
   echo %*{"store": true}
 
 else:
