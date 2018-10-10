@@ -12,7 +12,7 @@ if query == "load":
   echo readFile(filename)
 
 elif query == "store":
-  let data = cgi.readData()
+  let data = cgi.readData({methodPost})
   writeFile("demo.txt", $data)
 
   echo %*{"store": true}
