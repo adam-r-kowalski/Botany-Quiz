@@ -4,7 +4,7 @@ import { State, Plant, newPlant } from "../state";
 import { SelectRandomQuestion } from "./quiz";
 
 type GetRequest<T> = (url: string) => Promise<T>;
-type PostRequest<T> = (url: string, json: T) => Promise<void>;
+type PostRequest<T, R> = (url: string, json: T) => Promise<R>;
 
 async function fetchGetRequest<T>(url: string): Promise<T> {
   const response = await fetch(url);
@@ -12,19 +12,18 @@ async function fetchGetRequest<T>(url: string): Promise<T> {
   return json;
 }
 
-async function fetchPostRequest<T>(url: string, data: T): Promise<void> {
-  await fetch(url, {
+async function fetchPostRequest<T, R>(url: string, data: T): Promise<R> {
+  return await fetch(url, {
     method: "POST",
     body: JSON.stringify(data)
-  });
+  }).then(value => value.json() as Promise<R>);
 }
 
 export interface Status {
-  status: boolean;
+  store: boolean;
 }
 
-const backend =
-  "https://web.cecs.pdx.edu/~kowalski/Botany-Quiz/new_backend.cgi";
+const backend = "https://web.cecs.pdx.edu/~kowalski/Botany-Quiz/backend.cgi";
 
 export class LoadPlants implements Event {
   constructor(
@@ -74,7 +73,7 @@ export class NeedsSaving implements Event {
   update = (state: State): State => {
     if (state.needsSaving) return state;
     state.needsSaving = true;
-    setTimeout(() => this.dispatch(new SavePlants(this.dispatch)), 500);
+    setTimeout(() => this.dispatch(new SavePlants(this.dispatch)), 1000);
     return state;
   };
 }
@@ -82,20 +81,31 @@ export class NeedsSaving implements Event {
 export class SavePlants implements Event {
   constructor(
     private dispatch: Dispatch,
-    private postRequest: PostRequest<Plant[]> = fetchPostRequest
+    private postRequest: PostRequest<Plant[], Status> = fetchPostRequest
   ) {}
 
   async process(plants: Plant[]) {
-    await this.postRequest(`${backend}?store`, plants);
-    this.dispatch(new SavedPlants());
+    const response = await this.postRequest(`${backend}?store`, plants);
+    if (response.store) this.dispatch(new SavedPlants(this.dispatch));
+    else this.dispatch(new NeedsSaving(this.dispatch));
   }
 
   update = (state: State): State => {
-    this.process(state.allPlants);
-    return { ...state, needsSaving: false };
+    if (state.serverReady) {
+      this.process(state.allPlants);
+      const newState = { ...state, needsSaving: false, serverReady: false };
+      return newState;
+    }
+    return state;
   };
 }
 
 export class SavedPlants implements Event {
-  update = (state: State): State => state;
+  constructor(private dispatch: Dispatch) {}
+
+  update = (state: State): State => {
+    if (state.needsSaving) this.dispatch(new NeedsSaving(this.dispatch));
+    const newState = { ...state, serverReady: true };
+    return newState;
+  };
 }

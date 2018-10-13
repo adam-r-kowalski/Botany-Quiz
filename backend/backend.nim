@@ -6,7 +6,7 @@ echo "\n\n"
 
 var query = getEnv("QUERY_STRING")
 
-let filename = "new_plants.json"
+let filename = "plants.json"
 
 if query == "load":
   echo readFile(filename)

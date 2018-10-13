@@ -46,7 +46,9 @@ const settings = (state: State, dispatch: Dispatch) => (
     </mui.Typography>
     <div style={styles.padder} />
 
-    <icons.Save color={state.needsSaving ? "error" : "primary"} />
+    <icons.Save
+      color={state.needsSaving || !state.serverReady ? "error" : "primary"}
+    />
 
     <div style={styles.spacer} />
     <mui.Button onClick={() => dispatch(new ViewQuiz(dispatch))}>
